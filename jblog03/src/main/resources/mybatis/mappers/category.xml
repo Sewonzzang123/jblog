@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="category">
+	<insert id="join" parameterType="String">
+	insert 
+	  into category 
+	values (null, '기본', '기본 카테고리', sysdate(), #{userId }) 
+	</insert>
+	
+	<select id="getList" parameterType="String" resultType="categoryvo">
+	select no, name 
+	  from category 
+	 where user_id=#{userId } 
+	</select>
+	
+	<select id="getAdminList" parameterType="String" resultType="categoryvo">
+	select t1.no as no, t1.name as name, t1.desc as description, t1.reg_date as regDate, t1.user_id as userId, t2.count as totalPost
+		from category t1 
+		left outer join (select category_no, count(*) as count from post group by category_no) t2
+			on t1.no = t2.category_no
+		where t1.user_id = #{id }
+     order by t1.reg_date desc 
+	</select>
+	
+	<select id="getTotalPost" parameterType="Long" resultType="int">
+	select count(*) as totalPost
+	from category t1, post t2 
+	where t1.no = t2.category_no 
+	and t1.no=#{categoryNo } 
+	
+	</select>
+	
+	<insert id="addCategory" parameterType="categoryvo">
+	insert 
+	into category
+	values (null, #{name }, #{description }, sysdate(), #{userId }) 
+	</insert>
+	
+	<select id="getMinCategoryNo" parameterType="String" resultType="Long">
+		select min(no) as no 
+		from category 
+		where user_id=#{userId } 
+	</select>
+	
+	<delete id="delete" parameterType="Long">
+		delete 
+		from category 
+		where no = #{no } 
+	</delete>
+	
+	
+</mapper>
