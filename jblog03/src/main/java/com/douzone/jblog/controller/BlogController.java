@@ -66,6 +66,7 @@ public class BlogController {
 		//카테고리 목록 가져오기
 		List<CategoryVo> categoryList = categoryService.getList(id);
 		model.addAttribute("categoryList", categoryList);
+		model.addAttribute("categoryNo", categoryNo);
 		
 		return "blog/main";
 	}
