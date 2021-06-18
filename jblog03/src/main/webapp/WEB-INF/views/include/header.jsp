@@ -16,7 +16,4 @@
 			<li><a href="${pageContext.request.contextPath }/${authUser.id }">내블로그</a></li>
 		</c:otherwise>
 	</c:choose>
-
-
-
 </ul>

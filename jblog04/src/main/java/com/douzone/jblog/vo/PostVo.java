@@ -1,12 +1,12 @@
 package com.douzone.jblog.vo;
 
 public class PostVo {
+	
 	private Long no;
 	private String title;
-	private String contents;
+	private String contents;	
 	private String regDate;
 	private Long categoryNo;
-	//user정보...가 필요하나?
 	
 	public void setNo(Long no) {
 		this.no = no;
