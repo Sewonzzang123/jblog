@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="blog">
+	<insert id="join" parameterType="String">
+		insert 
+		into blog 
+		values(#{id },concat(#{id },'의 블로그'),'/assets/images/spring-logo.jpg')  
+	</insert>	
+	<select id="getBlogById" parameterType="String" resultType="blogvo">
+		select * 
+		from blog 
+		where id=#{id }	
+	</select>
+	
+	<update id="update" parameterType="blogvo">
+		update blog 
+		set title=#{title} 
+	<choose>
+		<when test='"".equals(logo)==false'>
+		    , logo=#{logo }
+		</when>
+	</choose>
+		where id=#{id }
+	</update>
+	
+	<select id="search" parameterType="map" resultType="blogvo">
+		select t2.title as title, t2.logo as logo, t1.id as id 
+			from user t1
+			join blog t2 
+			on t1.id = t2.id		
+	<choose>
+		<when test='"blogTitle".equals(which)'>
+			where t2.title like concat('%',#{keyword },'%')  
+		</when>
+		<when test='"blogUser".equals(which)'>
+			where t2.id like concat('%',#{keyword },'%')   
+		</when>
+		<otherwise>
+			where t2.title like concat('%',#{keyword },'%')  
+			or t2.id like concat('%',#{keyword },'%')  
+		</otherwise>
+	</choose>
+	</select>
+</mapper>
