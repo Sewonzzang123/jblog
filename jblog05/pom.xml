@@ -152,7 +152,7 @@
 
 
 	<build>
-		<finalName>jblog04</finalName>
+		<finalName>jblog05</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -168,7 +168,7 @@
 				<artifactId>tomcat-maven-plugin</artifactId>
 				<configuration>
 					<url>http://192.168.80.112:8080/manager/text</url>
-					<path>/jblog04</path>
+					<path>/jblog05</path>
 					<username>admin</username>
 					<password>manager</password>
 				</configuration>
