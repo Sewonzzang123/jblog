@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="post">
+	<insert id="addPost" parameterType="postvo">
+		insert 
+		into post
+		values (null, #{title }, #{contents }, sysdate(), #{categoryNo } )	
+		<selectKey keyProperty="no" resultType="Long" order="AFTER">
+		<![CDATA[
+			select last_insert_id()
+			 ]]>
+		</selectKey>
+	</insert>
+	 
+	<select id="getList" parameterType="map" resultType="postvo">
+		select  t2.no as no, 
+				t2.title as title, 
+				date_format(t2.reg_date,'%Y/%m/%d') as regDate,
+				t2.category_no as categoryNo 
+		from category t1, post t2 
+		where t1.no = t2.category_no 
+		and t1.user_id=#{id } 
+		<choose>
+			<when test='"0".equals(categoryNo)'> 
+			order by t2.reg_date desc 
+			</when>
+			<otherwise>
+			and t1.no = ${categoryNo }
+			order by t2.reg_date desc 
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="getPost" parameterType="map" resultType="postvo">
+		select no, title, contents, date_format(reg_date,'%Y/%m/%d') as regDate
+		  from post
+		  <choose>
+		  	<when test="postNo!=0L">
+		  	where no=#{postNo } 
+		  	</when>
+		  	<otherwise>
+		  	where category_no = #{categoryNo }
+	  	 order by reg_date desc
+		    limit 0,1;
+		  	</otherwise>
+		  </choose>
+		  
+	</select>
+</mapper>
