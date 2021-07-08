@@ -31,9 +31,9 @@
 					dataType : "json", // 받을 때 포멧
 					type : "get", // 요청 메서드
 					success : function(response) {
-						categoryNo = response.data.length + 1;
+						categoryNo = response.data.length;
 						let html = listEJS.render(response);
-						$(".admin-cat").append(html);
+						$(".admin-cat tbody").append(html);
 					},
 				});
 	};
@@ -62,9 +62,10 @@
 					contentType : "application/json",
 					data : JSON.stringify(vo),
 					success : function(response) {
+						categoryNo += 1;
 						response.data.categoryNo = categoryNo;
 						let html = listItemEJS.render(response.data);
-						$(".admin-cat tbody").after(html);
+						$(".admin-cat tbody").prepend(html);
 
 						$("#name").val("");
 						$("#description").val("");
@@ -89,8 +90,7 @@
 		});
 
 		var deleteCategory = function(no, $this) {
-			$
-					.ajax({
+			$.ajax({
 						url : "${pageContext.request.contextPath }/${requestScope.id}/admin/category/api/delete/"
 								+ no,
 						dataType : "json", // 받을 때 포멧
@@ -102,12 +102,22 @@
 							}
 							$this.parent().parent().remove();
 							categoryNo -= 1;
-
+							//numberformat();
 						},
 					});
 		};
 
 	});
+	
+	var numberformat = function(){
+		var length = $(".admin-cat tbody tr").length+1;
+
+		for(var i=1; i<length; i++){
+			let html = "<td>"+(length-1)+"</td>";
+			$(".admin-cat tbody tr:nth-child("+i+") td").first().remove();			
+			$(".admin-cat tbody tr:nth-child("+i+")").prepend(html);
+		}
+		};
 </script>
 </head>
 <body>
@@ -125,6 +135,7 @@
 					</li>
 				</ul>
 				<table class="admin-cat">
+					<thead>
 					<tr>
 						<th>번호</th>
 						<th>카테고리명</th>
@@ -132,6 +143,10 @@
 						<th>설명</th>
 						<th>삭제</th>
 					</tr>
+					</thead>
+					<tbody>
+					
+					</tbody>
 				</table>
 
 				<h4 class="n-c">새로운 카테고리 추가</h4>
