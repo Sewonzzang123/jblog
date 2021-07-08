@@ -35,8 +35,8 @@ public class CategoryRepository {
 		return sqlSession.selectOne("category.getMinCategoryNo", id);
 	}
 
-	public void delete(Long no) {
-		sqlSession.delete("category.delete", no);
+	public boolean delete(Long no) {
+		return sqlSession.delete("category.delete", no)==1? true : false ;
 		
 	}
 }

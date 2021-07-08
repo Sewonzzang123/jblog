@@ -31,8 +31,8 @@ public class CategoryService {
 		return categoryRepository.getMinCategoryNo(id);
 	}
 
-	public void delete(Long no) {
-		categoryRepository.delete(no);
+	public boolean delete(Long no) {
+		return categoryRepository.delete(no);
 		
 	}
 
