@@ -102,7 +102,7 @@
 							}
 							$this.parent().parent().remove();
 							categoryNo -= 1;
-							//numberformat();
+							numberformat();
 						},
 					});
 		};
@@ -113,10 +113,11 @@
 		var length = $(".admin-cat tbody tr").length+1;
 
 		for(var i=1; i<length; i++){
-			let html = "<td>"+(length-1)+"</td>";
+			let html = "<td>"+(--length)+"</td>";
 			$(".admin-cat tbody tr:nth-child("+i+") td").first().remove();			
 			$(".admin-cat tbody tr:nth-child("+i+")").prepend(html);
 		}
+		
 		};
 </script>
 </head>
