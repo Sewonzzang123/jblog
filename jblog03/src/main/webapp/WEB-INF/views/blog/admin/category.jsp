@@ -31,7 +31,6 @@
 					dataType : "json", // 받을 때 포멧
 					type : "get", // 요청 메서드
 					success : function(response) {
-						categoryNo = response.data.length;
 						let html = listEJS.render(response);
 						$(".admin-cat tbody").append(html);
 					},
@@ -62,8 +61,7 @@
 					contentType : "application/json",
 					data : JSON.stringify(vo),
 					success : function(response) {
-						categoryNo += 1;
-						response.data.categoryNo = categoryNo;
+						response.data.categoryNo = $(".admin-cat tbody tr").length+1;
 						let html = listItemEJS.render(response.data);
 						$(".admin-cat tbody").prepend(html);
 
@@ -72,7 +70,7 @@
 					},
 				});
 	};
-	var categoryNo = 0;
+	
 	$(function() {
 		fetch();
 
@@ -101,7 +99,6 @@
 								return;
 							}
 							$this.parent().parent().remove();
-							categoryNo -= 1;
 							numberformat();
 						},
 					});
@@ -110,10 +107,10 @@
 	});
 	
 	var numberformat = function(){
-		var length = $(".admin-cat tbody tr").length+1;
+		var length = $(".admin-cat tbody tr").length;
 
 		for(var i=1; i<length; i++){
-			let html = "<td>"+(--length)+"</td>";
+			let html = "<td>"+(length--)+"</td>";
 			$(".admin-cat tbody tr:nth-child("+i+") td").first().remove();			
 			$(".admin-cat tbody tr:nth-child("+i+")").prepend(html);
 		}
